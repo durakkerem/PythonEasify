@@ -13,6 +13,30 @@ from textblob import TextBlob
 import os
 #import nltk
 
+
+def preprocessTweet(text_string):
+    """
+    Accepts a text string and replaces:
+    1) urls with URLHERE
+    2) lots of whitespace with one instance
+    3) mentions with MENTIONHERE
+
+    This allows us to get standardized counts of urls and mentions
+    Without caring about specific people mentioned
+    """
+    space_pattern = '\s+'
+    giant_url_regex = ('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|'
+        '[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+')
+    mention_regex = '@[\w\-]+'
+    parsed_text = re.sub(space_pattern, ' ', text_string)
+    parsed_text = re.sub(giant_url_regex, 'URLHERE', parsed_text)
+    parsed_text = re.sub(mention_regex, 'MENTIONHERE', parsed_text)
+    #parsed_text = parsed_text.code("utf-8", errors='ignore')
+    return parsed_text
+
+
+
+
 def stringify(li, delimiter):
       fulltext = ''
       for index, l in enumerate(li):
